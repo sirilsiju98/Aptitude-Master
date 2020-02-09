@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "852606741080",
+    "firebase_url": "https://aptitude-master-684c6.firebaseio.com",
+    "project_id": "aptitude-master-684c6",
+    "storage_bucket": "aptitude-master-684c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852606741080:android:d56e7d53ed250cee53f82d",
+        "android_client_info": {
+          "package_name": "com.aptitudemaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852606741080-mrt0qghd20d2qc5tc8uc0ula60b8opug.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aptitudemaster",
+            "certificate_hash": "01415d537cf1088f6224bfc9f8a5291c6765ce83"
+          }
+        },
+        {
+          "client_id": "852606741080-vpbk0lf70fp8do9d4avrkotjjqhdipd7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8NN-k55iMwfYM0JfDh0iwG-_z7w7XWq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852606741080-vpbk0lf70fp8do9d4avrkotjjqhdipd7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
