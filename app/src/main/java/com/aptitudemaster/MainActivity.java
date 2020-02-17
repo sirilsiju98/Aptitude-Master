@@ -3,8 +3,12 @@ package com.aptitudemaster;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,17 +35,41 @@ public class MainActivity extends AppCompatActivity {
     static String name;
     Button loginbutton;
     public static Users userLoggedIn;
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
     public void login(View view){
+        final ProgressDialog dialog=new ProgressDialog(MainActivity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle("Please Wait");
+        dialog.setMessage("Loading....");
+        dialog.show();
 
         final Long id=Long.parseLong(userid.getText().toString());
         final Long pin=Long.parseLong(pinview.getValue().toString());
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final TextView txt = findViewById(R.id.invalidid);
         DatabaseReference myRef = database.getReference("Users");
+         if(!isNetworkAvailable(getApplicationContext()))
+         {
+             new AlertDialog.Builder(MainActivity.this)
+                     .setTitle("Internet Required")
+                     .setMessage("Please turn on your data")
+                     .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialogInterface, int i) {
+                             dialog.cancel();
+                             return;
 
+                         }
+                     })
+                     .show();
+         }
 
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                    String ar="Login Sucessfull";
@@ -59,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                              name=data.name;
                              Intent intent = new Intent(MainActivity.this,Dashboard.class);
                              startActivity(intent);
-                            finish();
+                             finish();
                              break;
                          }
                      }
@@ -69,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                   if(k!=1)
                   {
                       txt.setVisibility(View.VISIBLE);
+                      dialog.cancel();
                   }
 
 

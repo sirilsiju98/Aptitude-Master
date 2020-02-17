@@ -1,5 +1,6 @@
 package com.aptitudemaster.ui.share;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -30,6 +33,13 @@ public class ShareFragment extends Fragment {
                 textView.setText(s);
             }
         });
+        Intent shareIntent=  new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT,"Download CCE Sports 2019 app at: https://play.google.com/store/apps/details?id=org.codecse.ccesports2019");
+        shareIntent.setType("text/plain");
+        startActivity(shareIntent);
+        getFragmentManager().popBackStack();
+
         return root;
     }
 }
