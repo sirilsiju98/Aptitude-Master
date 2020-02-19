@@ -1,8 +1,8 @@
 package com.aptitudemaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,20 +12,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aptitudemaster.ui.quiz.QuizFragment;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class QuizActivity extends AppCompatActivity {
+public class QuizActivity extends AppCompatActivity implements OnSuccessListener {
     private DataSnapshot quiz;
     RadioGroup rg[];
     RadioButton r[][];
     TextView q[];
+    private ProgressDialog dialog;
+   public static int ansStatus[];
     int ids[][]={{R.id.radioButton11,R.id.radioButton12,R.id.radioButton13,R.id.radioButton14},
             {R.id.radioButton21,R.id.radioButton22,R.id.radioButton23,R.id.radioButton24},
             {R.id.radioButton31,R.id.radioButton32,R.id.radioButton33,R.id.radioButton34},
@@ -34,18 +35,32 @@ public class QuizActivity extends AppCompatActivity {
     };
     public void submit(View view)
     {
+         dialog=new ProgressDialog(QuizActivity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle("Please Wait");
+        dialog.setMessage("Calculating......");
+        dialog.show();
         float score=0;
         for(int i=0;i<5;i++)
         {
             int id=rg[i].getCheckedRadioButtonId();
-            if(id==-1)continue;
+            if(id==-1){
+                ansStatus[i]=0;
+                continue;
+            }
             else{
                 for(int j=0;j<4;j++)
                 {
                     if(id==ids[i][j])
                     {
-                       if(r[i][j].getTag().toString().equals(quiz.child("opt"+i).getValue().toString()))score++;
-                       else score -=0.33f;
+                       if(r[i][j].getTag().toString().equals(quiz.child("opt"+i).getValue().toString())) {
+                           score++;
+                           ansStatus[i]=1;
+                       }
+                       else {
+                           score -=0.33f;
+                           ansStatus[i]=-1;
+                       }
                     }
                 }
 
@@ -57,9 +72,9 @@ public class QuizActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Quiz");
         Map<String,Object> taskMap = new HashMap<>();
-        taskMap.put("user",MainActivity.userLoggedIn.getName());
+        taskMap.put("user", Dashboard.loggedIn.getName());
         taskMap.put("score",score);
-        myRef.child(quiz.getKey()).child("LeaderBoard").push().updateChildren(taskMap);
+        myRef.child(quiz.getKey()).child("LeaderBoard").push().updateChildren(taskMap).addOnSuccessListener(this);
         Toast.makeText(this, ""+score, Toast.LENGTH_SHORT).show();
 
     }
@@ -136,6 +151,18 @@ public class QuizActivity extends AppCompatActivity {
         setTitle(quiz.child("topic").getValue().toString());
         initialize();
         setData();
+        ansStatus=new int[5];
+
         //Toast.makeText(this, ""+(1+2), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSuccess(Object o) {
+        Intent intent = new Intent(QuizActivity.this,Result_Activity.class);
+        startActivity(intent);
+        dialog.cancel();
+        finish();
+
+
     }
 }

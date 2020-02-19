@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.aptitudemaster.Dashboard;
+import com.aptitudemaster.LoginActivity;
 import com.aptitudemaster.MainActivity;
 import com.aptitudemaster.R;
 
@@ -42,7 +44,7 @@ public class SendFragment extends Fragment {
         intent.setType("text/html");
         //intent.setData(Uri.parse("mailto:"));
         intent.putExtra(Intent.EXTRA_EMAIL, "emailaddress@gmail.com");
-        intent.putExtra(Intent.EXTRA_SUBJECT, MainActivity.userLoggedIn.getName());
+        intent.putExtra(Intent.EXTRA_SUBJECT, Dashboard.loggedIn.getName());
         intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
 
         startActivity(Intent.createChooser(intent, "Send Email"));

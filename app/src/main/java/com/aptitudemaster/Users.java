@@ -4,12 +4,12 @@ public class Users {
     long id;
     long pin;
     String name;
-    double score;
+    float score;
     public Users(){
 
     }
 
-    public Users(long id, long pin, String name, double score) {
+    public Users(long id, long pin, String name, float score) {
         this.id = id;
         this.pin = pin;
         this.name = name;
@@ -28,7 +28,7 @@ public class Users {
         return name;
     }
 
-    public double getScore() {
+    public float getScore() {
         return score;
     }
 
@@ -44,7 +44,7 @@ public class Users {
         this.name = name;
     }
 
-    public void setScore(double score) {
+    public void setScore(float score) {
         this.score = score;
     }
 }
