@@ -36,39 +36,15 @@ public class SendFragment extends Fragment {
             }
         });
 
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto","apptitudemaster21@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, Dashboard.loggedIn.getName()+" -Subject");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[]{"apptitudemaster21@gmail.com"});
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "I have the following issue on ....");
+        startActivity(Intent.createChooser(emailIntent, "Email Us"));
+        getFragmentManager().popBackStack();
 
 
-
-
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/html");
-        //intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL, "emailaddress@gmail.com");
-        intent.putExtra(Intent.EXTRA_SUBJECT, Dashboard.loggedIn.getName());
-        intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
-
-        startActivity(Intent.createChooser(intent, "Send Email"));
-
-
-
-        /*
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL, "apptitudemaster21@gmail.com");
-        intent.putExtra(Intent.EXTRA_SUBJECT,MainActivity.userLoggedIn.getName());
-        startActivity(intent);
-
-
-
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL  , new String[] { "me@somewhere.com" });
-        intent.putExtra(Intent.EXTRA_SUBJECT, "My subject");
-
-        startActivity(Intent.createChooser(intent, "Email via..."));
-        return root;
-
-         */
          return root;
     }
 }

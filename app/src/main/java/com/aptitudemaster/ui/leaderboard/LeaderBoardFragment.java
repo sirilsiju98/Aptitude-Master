@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -24,23 +25,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LeaderBoardFragment extends Fragment implements ValueEventListener {
 
     ArrayList<Users> llist;
-    ArrayList<String> dlist;
     ListView Leader_listview;
     ProgressDialog dialog;
+     List<Map<String,String>> lead ;
+    Map<String,String> map;
 
     private void sort(ArrayList<Users> users)
     {
         for(int i=0;i<users.size()-1;i++)
         {
-            for(int j=0;j<users.size()-i;j++)
+            for(int j=0;j<users.size()-i-1;j++)
             {
-                if(users.get(j).getScore()>users.get(j+1).getScore())
+                if(users.get(j).getScore()<users.get(j+1).getScore())
                 {
                     Collections.swap(users,j,j+1);
                 }
@@ -78,17 +84,24 @@ public class LeaderBoardFragment extends Fragment implements ValueEventListener 
             llist.add(data);
 
         }
-        //sort(llist);
-        dlist=new ArrayList<String>();
+        sort(llist);
+        lead = new ArrayList<Map<String,String>>();
         for(Users u:llist)
         {
-            dlist.add(u.getName()+"\t"+u.getScore());
+            String mainElt=u.getName();
+            DecimalFormat df = new DecimalFormat("##.##");
+            String subElt ="Score: "+df.format(u.getScore());
+            map = new HashMap();
+            map.put("var1", mainElt);
+            map.put("var2", subElt);
+            lead.add(map);
+
         }
 
 
         try {
-            ArrayAdapter<String> arrayAdapter_tutorial = new ArrayAdapter<String>(getContext(),android.R.layout.simple_expandable_list_item_1,dlist);
-            Leader_listview.setAdapter(arrayAdapter_tutorial);
+            SimpleAdapter simpleAdapter = new SimpleAdapter(getContext(),lead,android.R.layout.simple_list_item_2,new String[]{"var1","var2"},new int[]{android.R.id.text1,android.R.id.text2});
+            Leader_listview.setAdapter(simpleAdapter);
         }
         catch (Exception e)
         {
