@@ -28,10 +28,13 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 public class Dashboard extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     public static Users loggedIn;
+    public static TextView  usernametextnsView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,7 @@ public class Dashboard extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                 R.id.nav_quiz, R.id.nav_slideshow,
+                 R.id.nav_quiz, R.id.nav_leaderboard,
                 R.id.nav_changepin, R.id.nav_share, R.id.nav_send,R.id.nav_tutorial)
                 .setDrawerLayout(drawer)
                 .build();
@@ -57,9 +60,10 @@ public class Dashboard extends AppCompatActivity {
 
 
         TextView userIdtextView=headerView.findViewById(R.id.UserID);
-        TextView usernametextView= headerView.findViewById(R.id.Name);
+         usernametextnsView= headerView.findViewById(R.id.Name);
+        DecimalFormat df = new DecimalFormat("###.##");
          userIdtextView.setText(Long.toString(loggedIn.getId()));
-         usernametextView.setText(loggedIn.getName());
+         usernametextnsView.setText(loggedIn.getName()+"\nScore:"+df.format(loggedIn.score));
     }
 
     @Override

@@ -3,19 +3,21 @@ package com.aptitudemaster;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.aptitudemaster.ui.quiz.QuizFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ public class QuizActivity extends AppCompatActivity implements OnSuccessListener
     RadioButton r[][];
     TextView q[];
     private ProgressDialog dialog;
+    float score;
    public static int ansStatus[];
     int ids[][]={{R.id.radioButton11,R.id.radioButton12,R.id.radioButton13,R.id.radioButton14},
             {R.id.radioButton21,R.id.radioButton22,R.id.radioButton23,R.id.radioButton24},
@@ -40,7 +43,7 @@ public class QuizActivity extends AppCompatActivity implements OnSuccessListener
         dialog.setTitle("Please Wait");
         dialog.setMessage("Calculating......");
         dialog.show();
-        float score=0;
+        score=0;
         for(int i=0;i<5;i++)
         {
             int id=rg[i].getCheckedRadioButtonId();
@@ -58,7 +61,7 @@ public class QuizActivity extends AppCompatActivity implements OnSuccessListener
                            ansStatus[i]=1;
                        }
                        else {
-                           score -=0.33f;
+                           score -=((float)1/3);
                            ansStatus[i]=-1;
                        }
                     }
@@ -74,8 +77,15 @@ public class QuizActivity extends AppCompatActivity implements OnSuccessListener
         Map<String,Object> taskMap = new HashMap<>();
         taskMap.put("user", Dashboard.loggedIn.getName());
         taskMap.put("score",score);
-        myRef.child(quiz.getKey()).child("LeaderBoard").push().updateChildren(taskMap).addOnSuccessListener(this);
-        Toast.makeText(this, ""+score, Toast.LENGTH_SHORT).show();
+        myRef.child(quiz.getKey()).child("LeaderBoard").push().updateChildren(taskMap);
+        Dashboard.loggedIn.score+=score;
+        SharedPreferences sharedPreferences = getSharedPreferences(this.getPackageName(), Context.MODE_PRIVATE);
+        String key=sharedPreferences.getString("key","");
+        sharedPreferences.edit().putFloat("score",score).apply();
+        DatabaseReference myRef2 = database.getReference("Users").child(key);
+        myRef2.child("score").setValue(Dashboard.loggedIn.score).addOnSuccessListener(this);
+        DecimalFormat df = new DecimalFormat("###.##");
+        Dashboard.usernametextnsView.setText(Dashboard.loggedIn.getName()+"\nScore:"+df.format(Dashboard.loggedIn.score));
 
     }
     private void initialize()
@@ -159,7 +169,9 @@ public class QuizActivity extends AppCompatActivity implements OnSuccessListener
     @Override
     public void onSuccess(Object o) {
         Intent intent = new Intent(QuizActivity.this,Result_Activity.class);
+        intent.putExtra("score",score);
         startActivity(intent);
+
         dialog.cancel();
         finish();
 

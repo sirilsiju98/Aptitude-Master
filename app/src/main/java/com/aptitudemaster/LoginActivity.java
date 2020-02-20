@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                   String ar="Login Sucessfull";
+                   String ar="Login Successful";
                    int k=0;
                   for(DataSnapshot ds:dataSnapshot.getChildren())
                   {
@@ -88,6 +88,8 @@ public class LoginActivity extends AppCompatActivity {
                              name=data.name;
                              SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
                              sharedPreferences.edit().putBoolean("log",true).apply();
+                             sharedPreferences.edit().putString("key",ds.getKey()).apply();
+
 
                              sharedPreferences.edit().putString("name",data.getName()).apply();
                              sharedPreferences.edit().putLong("id",data.getId()).apply();
@@ -95,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                              sharedPreferences.edit().putLong("pin",data.getPin()).apply();
                              Intent intent = new Intent(LoginActivity.this,Dashboard.class);
                              startActivity(intent);
+                             dialog.cancel();
                              finish();
                              break;
                          }

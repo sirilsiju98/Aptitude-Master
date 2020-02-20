@@ -1,6 +1,7 @@
 package com.aptitudemaster.ui.quiz;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -37,6 +39,7 @@ public class QuizFragment extends Fragment implements ValueEventListener, Adapte
     public static ArrayList<String> list;
     protected ListView listView;
     public static ArrayList<DataSnapshot> quiz_rec;
+    ProgressDialog dialog;
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -48,11 +51,13 @@ public class QuizFragment extends Fragment implements ValueEventListener, Adapte
         {
            if(r.child("user").getValue().toString().equals(Dashboard.loggedIn.getName())) {
                quiz_taken = true;
-               String s=r.child("score").getValue().toString();
+
+               double s= (double) r.child("score").getValue();
+               DecimalFormat df =new DecimalFormat("###.##");
 
                new AlertDialog.Builder(getContext())
                        .setTitle("Test Already Attempted")
-                       .setMessage("You have already taken this test.\n Score: "+s)
+                       .setMessage("You have already taken this test.\nScore: "+df.format(s))
                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
                            @Override
                            public void onClick(DialogInterface dialogInterface, int i) {
@@ -83,6 +88,11 @@ public class QuizFragment extends Fragment implements ValueEventListener, Adapte
         DatabaseReference myRef = database.getReference("Quiz");
         myRef.addValueEventListener(this);
         listView.setOnItemClickListener(this);
+        dialog=new ProgressDialog(getActivity());
+        dialog.setCancelable(false);
+        dialog.setTitle("Please Wait");
+        dialog.setMessage("Loading.......");
+        dialog.show();
 
 
         return root;
@@ -106,6 +116,7 @@ public class QuizFragment extends Fragment implements ValueEventListener, Adapte
         {
 
         }
+        dialog.cancel();
 
     }
 

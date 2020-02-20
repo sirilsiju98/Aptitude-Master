@@ -245,7 +245,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_weight="1"
-            android:text="Clear All" />
+            android:text="Clear All"
+            android:background="@drawable/round_cor"/>
 
         <Button
             android:id="@+id/submit"
@@ -253,7 +254,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="submit"
-            android:text="Submit" />
+            android:text="Submit"
+
+            android:background="@drawable/round_cor"/>
     </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

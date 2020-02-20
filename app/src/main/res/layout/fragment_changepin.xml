@@ -38,5 +38,24 @@
         app:pinBackground="@drawable/pin_view"
         app:pinHeight="40dp"
         app:pinLength="4"
-        app:pinWidth="40dp" />
+        app:pinWidth="40dp" >
+
+    </com.goodiebag.pinview.Pinview>
+
+    <Button
+        android:id="@+id/change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="change"
+        android:alpha="0.5"
+        android:background="@color/loginButton"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#FFFFFF"
+        app:layout_constraintVertical_bias="0.65" />
 </androidx.constraintlayout.widget.ConstraintLayout>

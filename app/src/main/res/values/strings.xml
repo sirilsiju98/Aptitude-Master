@@ -10,8 +10,8 @@
 
     <string name="menu_tutorial">Tutorial</string>
     <string name="menu_quiz">Quiz</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
+    <string name="menu_leaderboard">LeaderBoard</string>
+    <string name="menu_changepin">ChangePin</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Contact Us</string>
 </resources>

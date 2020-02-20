@@ -1,5 +1,7 @@
 package com.aptitudemaster.ui.tutorial;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -37,6 +40,7 @@ public class TutorialFragment extends Fragment {
      private Tutorial data;
      ArrayList<Tutorial> tlist;
     ListView tutorial_listview;
+    ProgressDialog dialog;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,6 +49,11 @@ public class TutorialFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_tutorial, container, false);
         tutorial_listview = root.findViewById(R.id.tutorial_list);
         final ArrayList<String> tslist=new ArrayList<String>();
+        dialog=new ProgressDialog(getActivity());
+        dialog.setCancelable(false);
+        dialog.setTitle("Please Wait");
+        dialog.setMessage("Loading....");
+        dialog.show();
 
 
 
@@ -68,9 +77,16 @@ public class TutorialFragment extends Fragment {
                     tslist.add(t.getTopic());
                 }
                 Collections.reverse(tslist);
+                try {
+                    ArrayAdapter<String> arrayAdapter_tutorial = new ArrayAdapter<String>(getContext(),android.R.layout.simple_expandable_list_item_1,tslist);
+                    tutorial_listview.setAdapter(arrayAdapter_tutorial);
+                }
+                catch (Exception e)
+                {
 
-                ArrayAdapter<String> arrayAdapter_tutorial = new ArrayAdapter<String>(getContext(),android.R.layout.simple_expandable_list_item_1,tslist);
-                tutorial_listview.setAdapter(arrayAdapter_tutorial);
+                }
+
+                dialog.cancel();
 
             }
 

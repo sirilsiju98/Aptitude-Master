@@ -18,15 +18,15 @@
         tools:layout="@layout/fragment_quiz" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.aptitudemaster.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_leaderboard"
+        android:name="com.aptitudemaster.ui.leaderboard.LeaderBoardFragment"
+        android:label="@string/menu_leaderboard"
+        tools:layout="@layout/fragment_leaderboard" />
 
     <fragment
         android:id="@+id/nav_changepin"
         android:name="com.aptitudemaster.ui.changepin.changepinFragment"
-        android:label="@string/menu_tools"
+        android:label="@string/menu_changepin"
         tools:layout="@layout/fragment_changepin" />
 
     <fragment
