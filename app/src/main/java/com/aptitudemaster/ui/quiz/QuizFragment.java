@@ -52,7 +52,7 @@ public class QuizFragment extends Fragment implements ValueEventListener, Adapte
            if(r.child("user").getValue().toString().equals(Dashboard.loggedIn.getName())) {
                quiz_taken = true;
 
-               double s= (double) r.child("score").getValue();
+               double s= Double.parseDouble(r.child("score").getValue().toString());
                DecimalFormat df =new DecimalFormat("###.##");
 
                new AlertDialog.Builder(getContext())

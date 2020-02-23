@@ -22,11 +22,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
 public class QuizActivity extends AppCompatActivity implements OnSuccessListener {
     private DataSnapshot quiz;
     RadioGroup rg[];
     RadioButton r[][];
     TextView q[];
+    public static char[] answers;
     private ProgressDialog dialog;
     float score;
    public static int ansStatus[];
@@ -150,6 +152,8 @@ public class QuizActivity extends AppCompatActivity implements OnSuccessListener
                 r[i][j].setText(quiz.child("ans"+i+j).getValue().toString());
             }
         }
+        for(i=0;i<5;i++)
+            answers[i]=quiz.child("opt"+i).getValue().toString().charAt(0);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +163,7 @@ public class QuizActivity extends AppCompatActivity implements OnSuccessListener
         int pos=intent.getIntExtra("pos",0);
         quiz= QuizFragment.quiz_rec.get(pos);
         setTitle(quiz.child("topic").getValue().toString());
+        answers=new char[5];
         initialize();
         setData();
         ansStatus=new int[5];
@@ -171,6 +176,7 @@ public class QuizActivity extends AppCompatActivity implements OnSuccessListener
         Intent intent = new Intent(QuizActivity.this,Result_Activity.class);
         intent.putExtra("score",score);
         startActivity(intent);
+
 
         dialog.cancel();
         finish();

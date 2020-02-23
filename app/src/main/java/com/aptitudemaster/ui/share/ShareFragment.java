@@ -35,7 +35,7 @@ public class ShareFragment extends Fragment {
         });
         Intent shareIntent=  new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT,"Download CCE Sports 2019 app at: https://play.google.com/store/apps/details?id=org.codecse.ccesports2019");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,"Download Aptitude Master app at: https://play.google.com/store/apps/details?id=com.aptitudemaster");
         shareIntent.setType("text/plain");
         startActivity(shareIntent);
         getFragmentManager().popBackStack();

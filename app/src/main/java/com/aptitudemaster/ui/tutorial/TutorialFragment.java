@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -102,11 +103,16 @@ public class TutorialFragment extends Fragment {
              @Override
              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tlist.get(tlist.size()-position-1).getUrl()));
-                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                 intent.setPackage("com.google.android.youtube");
-                 startActivity(intent);
+                  try {
+                      Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tlist.get(tlist.size() - position - 1).getUrl()));
+                      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                      intent.setPackage("com.google.android.youtube");
+                      startActivity(intent);
+                  }
+                  catch (Exception E)
+                  {
+                      Toast.makeText(getContext(), "Error Loading", Toast.LENGTH_SHORT).show();
+                  }
 
              }
          });
