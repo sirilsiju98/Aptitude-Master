@@ -15,8 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.aptitudemaster.Dashboard;
-import com.aptitudemaster.LoginActivity;
-import com.aptitudemaster.MainActivity;
+
 import com.aptitudemaster.R;
 
 public class SendFragment extends Fragment {
