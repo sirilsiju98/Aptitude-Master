@@ -82,13 +82,10 @@ public class LoginActivity extends AppCompatActivity {
                          {
                              Toast.makeText(LoginActivity.this, ar, Toast.LENGTH_SHORT).show();
                              k=1;
-                             //userLoggedIn=data;
                              name=data.name;
                              SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
                              sharedPreferences.edit().putBoolean("log",true).apply();
                              sharedPreferences.edit().putString("key",ds.getKey()).apply();
-
-
                              sharedPreferences.edit().putString("name",data.getName()).apply();
                              sharedPreferences.edit().putLong("id",data.getId()).apply();
                              sharedPreferences.edit().putFloat("score",data.getScore()).apply();
@@ -125,7 +122,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Users");
         userid=findViewById(R.id.userid);
         pinview=findViewById(R.id.pinId);
         loginbutton=findViewById(R.id.loginId);
